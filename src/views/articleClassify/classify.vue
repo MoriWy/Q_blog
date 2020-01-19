@@ -8,22 +8,32 @@
         <el-table-column label="修改时间" prop="modifiedTime"></el-table-column>
         <el-table-column label="操作">
           <template slot-scope="scope">
-            <el-button type="primary"  @click="editClassify(scope.row.id,scope.row)">编辑</el-button>
-            <el-button type="danger">删除</el-button>
+            <el-button type="primary"  @click="editClassify(scope.$index,scope.row)">编辑</el-button>
+            <el-button type="danger" v-popover:pop>删除</el-button>
+
+              <el-popover
+                ref="pop"
+                placement="top"
+                v-model="popvisible">
+                <p>这是一段内容</p>
+                <div style="text-align: right; margin: 0">
+                  <el-button @click="popvisible=false">取消</el-button>
+                  <el-button @click="popvisible=false">确定</el-button>
+                </div>
+              </el-popover>
+
           </template>
         </el-table-column>
       </el-table>
-      <el-dialog
-        title="栏目信息修改"
-        :visible.sync="editDialogVisible"
-        width="30%"
-        center>
-        <eForm :contentData="classifyData" :index="index" :row="row"></eForm>
-        <span slot="footer" class="dialog-footer">
-          <el-button @click="editDialogVisible = false">取 消</el-button>
-          <el-button type="primary" @click="editDialogVisible = false">确 定</el-button>
-         </span>
-      </el-dialog>
+<!--      <eForm v-show="editDialogVisible" :index="index"></eForm>-->
+      <template>
+        <eForm v-show="editDialogVisible"
+        :editDialogVisible="editDialogVisible"
+        :index="index"
+        :row="row"
+        :editClassify="editClassify">
+        </eForm>
+      </template>
     </div>
 </template>
 
@@ -36,10 +46,11 @@
         components:{eForm},
         data(){
           return{
-              classifyData:[],
-              editDialogVisible:false,
+              popvisible:false,
+              row:'',
               index:'',
-              row:''
+              editDialogVisible:false,
+              classifyData:[]
           }
         },
         mounted(){
@@ -47,12 +58,12 @@
         },
         methods:{
             editClassify(index,row){
-                // console.log("你好！")
                 this.editDialogVisible = true
-                console.log(index,row)
+                console.log("dialog",this.editDialogVisible)
+                console.log("index:",index,row)
                 this.index = index
                 this.row = row
-                // console.log(this.editDialogVisible)
+                console.log("row:",this.row)
             },
             queryClassify() {
                 this.axios.get("/api/api/v1/tags?token="+getToken())
