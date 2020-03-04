@@ -10,7 +10,6 @@
           <template slot-scope="scope">
             <el-button type="primary"  @click="editClassify(scope.$index,scope.row)">编辑</el-button>
             <el-button type="danger" v-popover:pop>删除</el-button>
-
               <el-popover
                 ref="pop"
                 placement="top"
@@ -21,7 +20,6 @@
                   <el-button @click="popvisible=false">确定</el-button>
                 </div>
               </el-popover>
-
           </template>
         </el-table-column>
       </el-table>

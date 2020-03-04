@@ -59,9 +59,6 @@
         methods:{
             cancel(){
                 this.editDialogVisible = false
-                // console.log("打出来index：",this.getindex)
-                // console.log("打出来：",this.modifyform )
-                // console.log("取消：",this.editDialogVisible)
             },
             doSubmit(){
                 this.editDialogVisible = false
